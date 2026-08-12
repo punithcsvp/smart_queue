@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import com.punith.smartqueue.dto.CustomerQueueResponse;
 
 import java.util.List;
 
@@ -176,5 +177,24 @@ public class CustomerService {
         updateQueuePositions();
 
         return "Customer deleted successfully";
+    }
+    public Customer getServingCustomer() {
+        return customerRepository
+                .findFirstByStatusOrderByTokenNumberAsc(CustomerStatus.SERVING)
+                .orElse(null);
+    }
+    // Get public customer queue status
+    public CustomerQueueResponse getPublicQueueStatus(Integer token) {
+
+        Customer customer = customerRepository.findByTokenNumber(token)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        return new CustomerQueueResponse(
+                customer.getTokenNumber(),
+                customer.getName(),
+                customer.getServiceType(),
+                customer.getStatus(),
+                customer.getQueuePosition()
+        );
     }
 }

@@ -195,4 +195,15 @@ public class CustomerController {
     public String deleteCustomer(@PathVariable Long id) {
         return customerService.deleteCustomer(id);
     }
+
+
+    // =========================
+    // Get Currently Serving Customer
+    // ADMIN + STAFF
+    // =========================
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
+    @GetMapping("/serving")
+    public Customer getServingCustomer() {
+        return customerService.getServingCustomer();
+    }
 }

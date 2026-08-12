@@ -44,6 +44,7 @@ public class SecurityConfig {
                         // Allow frontend preflight requests
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**")
                         .permitAll()
+                        .requestMatchers("/public/**").permitAll()
 
                         // Public APIs
                         .requestMatchers(
@@ -54,9 +55,9 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        // Admin only
+                        // Admin + staff
                         .requestMatchers("/customers/next")
-                        .hasRole("ADMIN")
+                        .hasAnyRole("ADMIN", "STAFF")
 
                         // Admin + Staff
                         .requestMatchers("/customers/**")
