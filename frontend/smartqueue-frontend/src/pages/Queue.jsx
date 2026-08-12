@@ -6,8 +6,10 @@ function Queue() {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("");
+    const [servingCustomer, setServingCustomer] = useState(null);
 
     const token = localStorage.getItem("token");
+
 
     // Get waiting customers
     const fetchQueue = async () => {
@@ -44,6 +46,31 @@ function Queue() {
     };
 
 
+    // Get currently serving customer
+    const fetchServingCustomer = async () => {
+
+        try {
+
+            const response = await axios.get(
+                "http://localhost:8081/customers/serving",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            setServingCustomer(response.data);
+
+        } catch (error) {
+
+            console.error("Serving Customer Error:", error);
+
+            setServingCustomer(null);
+        }
+    };
+
+
     // Call next customer
     const callNextCustomer = async () => {
 
@@ -64,13 +91,16 @@ function Queue() {
             );
 
             fetchQueue();
+            fetchServingCustomer();
 
         } catch (error) {
 
             console.error("Call Next Error:", error);
 
             if (error.response?.status === 403) {
-                setMessage("You do not have permission to call the next customer.");
+                setMessage(
+                    "You do not have permission to call the next customer."
+                );
             } else if (error.response?.status === 500) {
                 setMessage("Queue is empty.");
             } else {
@@ -100,6 +130,7 @@ function Queue() {
             );
 
             fetchQueue();
+            fetchServingCustomer();
 
         } catch (error) {
 
@@ -116,13 +147,18 @@ function Queue() {
 
     // Load queue when page opens
     useEffect(() => {
+
         fetchQueue();
+        fetchServingCustomer();
+
     }, []);
 
 
     return (
 
         <div className="container mt-5">
+
+            {/* Header */}
 
             <div className="d-flex justify-content-between align-items-center mb-4">
 
@@ -141,7 +177,10 @@ function Queue() {
 
                     <button
                         className="btn btn-secondary"
-                        onClick={fetchQueue}
+                        onClick={() => {
+                            fetchQueue();
+                            fetchServingCustomer();
+                        }}
                     >
                         🔄 Refresh
                     </button>
@@ -157,6 +196,95 @@ function Queue() {
 
                 <div className="alert alert-info">
                     {message}
+                </div>
+
+            )}
+
+
+            {/* Currently Serving */}
+
+            {servingCustomer && (
+
+                <div className="card shadow mb-4 border-primary">
+
+                    <div className="card-body">
+
+                        <h3 className="fw-bold text-primary mb-3">
+                            Currently Serving
+                        </h3>
+
+                        <div className="row">
+
+                            <div className="col-md-3">
+
+                                <strong>
+                                    Token
+                                </strong>
+
+                                <h2 className="fw-bold">
+                                    {servingCustomer.tokenNumber}
+                                </h2>
+
+                            </div>
+
+
+                            <div className="col-md-3">
+
+                                <strong>
+                                    Name
+                                </strong>
+
+                                <p>
+                                    {servingCustomer.name}
+                                </p>
+
+                            </div>
+
+
+                            <div className="col-md-3">
+
+                                <strong>
+                                    Phone
+                                </strong>
+
+                                <p>
+                                    {servingCustomer.phoneNumber}
+                                </p>
+
+                            </div>
+
+
+                            <div className="col-md-3">
+
+                                <strong>
+                                    Service
+                                </strong>
+
+                                <p>
+                                    {servingCustomer.serviceType}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <span className="badge bg-warning text-dark">
+                            {servingCustomer.status}
+                        </span>
+
+
+                        <button
+                            className="btn btn-success btn-sm ms-3"
+                            onClick={() =>
+                                completeCustomer(servingCustomer.id)
+                            }
+                        >
+                            ✓ Complete
+                        </button>
+
+                    </div>
+
                 </div>
 
             )}
@@ -181,6 +309,10 @@ function Queue() {
                 <div className="card shadow">
 
                     <div className="card-body">
+
+                        <h3 className="mb-3">
+                            Waiting Queue
+                        </h3>
 
                         <table className="table table-hover">
 

@@ -1,21 +1,43 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Navigate,
+    useLocation
+} from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Queue from "./pages/Queue";
 import AddCustomer from "./pages/AddCustomer";
 import Customers from "./pages/Customers";
+import CustomerPortal from "./pages/CustomerPortal";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
 
-function App() {
+
+function AppContent() {
+
+    const location = useLocation();
 
     return (
-        <BrowserRouter>
+
+        <>
+
+           {/* Show Navbar except Login and Customer Portal */}
+{location.pathname !== "/" &&
+ location.pathname !== "/customer" &&
+ <Navbar />}
+
 
             <Routes>
 
                 {/* Login */}
-                <Route path="/" element={<Login />} />
+                <Route
+                    path="/"
+                    element={<Login />}
+                />
+
 
                 {/* Dashboard */}
                 <Route
@@ -27,6 +49,7 @@ function App() {
                     }
                 />
 
+
                 {/* Queue */}
                 <Route
                     path="/queue"
@@ -36,6 +59,7 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
+
 
                 {/* Customers */}
                 <Route
@@ -47,6 +71,7 @@ function App() {
                     }
                 />
 
+
                 {/* Add Customer */}
                 <Route
                     path="/add-Customers"
@@ -57,16 +82,43 @@ function App() {
                     }
                 />
 
+
                 {/* Unknown URL */}
                 <Route
                     path="*"
-                    element={<Navigate to="/" replace />}
+                    element={
+                        <Navigate
+                            to="/"
+                            replace
+                        />
+                    }
                 />
+                {/* Customer Portal - Public */}
+<Route
+    path="/customer"
+    element={<CustomerPortal />}
+/>
 
             </Routes>
 
-        </BrowserRouter>
+        </>
+
     );
 }
+
+
+function App() {
+
+    return (
+
+        <BrowserRouter>
+
+            <AppContent />
+
+        </BrowserRouter>
+
+    );
+}
+
 
 export default App;

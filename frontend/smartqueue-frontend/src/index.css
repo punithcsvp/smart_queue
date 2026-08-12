@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f5f7fb;
+    color: #212529;
+}
+
+a {
+    text-decoration: none;
+}
+
+.page-container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 30px;
+}
+
+/* Navbar */
+
+.smart-navbar {
+    background: linear-gradient(135deg, #172554, #1e40af);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+.smart-navbar .navbar-brand {
+    font-size: 1.35rem;
+    letter-spacing: 0.3px;
+}
+
+.smart-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    margin-left: 8px;
+    padding: 8px 14px !important;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.smart-navbar .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.logout-btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Cards */
+
+.dashboard-card,
+.content-card {
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover,
+.content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.09) !important;
+}
+
+/* Tables */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table tbody tr {
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background: #f8faff;
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+/* Page headings */
+
+.page-title {
+    font-weight: 700;
+    color: #172554;
+}
+
+.page-subtitle {
+    color: #6c757d;
+}
+
+/* Search card */
+
+.search-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* Status badges */
+
+.status-badge {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Login */
+
+.login-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+}
+
+.login-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .page-container {
+        padding: 20px 15px;
+    }
+
+    .smart-navbar .nav-link {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+
+}
